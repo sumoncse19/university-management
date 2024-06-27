@@ -61,3 +61,9 @@ Installing Prettier:
 ```
 npm install --save-dev prettier
 ```
+
+For run development server:
+
+```
+npm i ts-node-dev --save-dev
+```
