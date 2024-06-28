@@ -12,7 +12,7 @@
     "prettier:fix": "npx prettier --write src",
     "lint-prettier": "npm run lint && npm run prettier",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +42,9 @@
     "typescript-eslint": "^7.14.1"
   },
   "lint-staged": {
-    "src/**/*.ts": "npm run lint-prettier"
+    "src/**/*.ts": [
+      "npm run lint:fix",
+      "npm run prettier:fix"
+    ]
   }
 }
