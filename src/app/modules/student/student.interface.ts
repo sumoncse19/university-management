@@ -4,6 +4,7 @@
 //   email: string;
 //   profileImg?: string;
 // }
+
 // also we can use like this:
 // 1. Create an type representing a Student in MongoDB.
 export interface IUserName {
