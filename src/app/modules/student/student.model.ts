@@ -61,7 +61,6 @@ const studentSchema = new Schema<StudentType>({
 
 // 3. Create a Model.
 // const User = model<IUser>('User', userSchema);
-
 // run().catch(err => console.log(err));
 
 export const StudentModel = model<StudentType>('Student', studentSchema)
