@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
 import validator from 'validator'
+import bcrypt from 'bcrypt'
 
 import {
   TGuardian,
@@ -11,6 +12,7 @@ import {
   // TStudentMethods,
   IStudentModel,
 } from './student.interface'
+import config from '../../config'
 
 // 2. Create a Schema corresponding to the document interface.
 // const studentSchema = new Schema<IStudent>({
@@ -123,6 +125,11 @@ const studentSchema = new Schema<TStudent, IStudentModel>({
       message: '{VALUE} is not a valid email',
     },
   },
+  password: {
+    type: String,
+    required: [true, 'Password ID is required'],
+    maxlength: [25, 'Password can not be more than 20'],
+  },
   contactNo: { type: String, required: [true, 'Contact Number is required'] },
   emergencyContactNo: {
     type: String,
@@ -159,6 +166,30 @@ const studentSchema = new Schema<TStudent, IStudentModel>({
     },
     default: 'active',
   },
+})
+
+// Middleware --> pre save middleware / hook: will work on create() save()
+studentSchema.pre('save', async function (next) {
+  // console.log(this, 'pre hook: we will save data')
+
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const student = this
+
+  // Hashing password and save into DB
+  student.password = await bcrypt.hash(
+    student.password,
+    Number(config.bcrypt_salt_rounds),
+  )
+
+  next()
+})
+
+// Middleware --> post save middleware / hook
+studentSchema.post('save', function (doc, next) {
+  doc.password = ''
+  console.log(this, 'post hook: Student saved successfully')
+
+  next()
 })
 
 // 3. Create a Model.

@@ -49,6 +49,7 @@ const studentValidationSchema = z.object({
   gender: z.enum(['male', 'female', 'other']),
   dateOfBirth: z.string(),
   email: z.string().email(),
+  password: z.string().max(20),
   contactNo: z.string(),
   emergencyContactNo: z.string(),
   bloodGroup: z
