@@ -7,8 +7,9 @@ import {
   IUserName,
   TLocalGuardian,
   TStudent,
-  TStudentModel,
-  TStudentMethods,
+  // TStudentModel,
+  // TStudentMethods,
+  IStudentModel,
 } from './student.interface'
 
 // 2. Create a Schema corresponding to the document interface.
@@ -94,7 +95,9 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 })
 
 // Define the studentSchema
-const studentSchema = new Schema<TStudent, TStudentModel, TStudentMethods>({
+// const studentSchema = new Schema<TStudent, TStudentModel, TStudentMethods>({ --> For creating with instance
+
+const studentSchema = new Schema<TStudent, IStudentModel>({
   id: {
     type: String,
     required: [true, 'Student ID is required'],
@@ -162,15 +165,22 @@ const studentSchema = new Schema<TStudent, TStudentModel, TStudentMethods>({
 // const User = model<IUser>('User', userSchema);
 // run().catch(err => console.log(err));
 
-// create a custom instance method
-studentSchema.methods.isStudentExists = async function (id: string) {
-  // const existingStudent = await StudentModel.findOne({ id: id })
+// creating a custom static method
+studentSchema.statics.isStudentExists = async function (id: string) {
   const existingStudent = await StudentModel.findOne({ id })
 
   return existingStudent
 }
 
-export const StudentModel = model<TStudent, TStudentModel>(
+// create a custom instance method
+// studentSchema.methods.isStudentExists = async function (id: string) {
+//   // const existingStudent = await StudentModel.findOne({ id: id })
+//   const existingStudent = await StudentModel.findOne({ id })
+
+//   return existingStudent
+// }
+
+export const StudentModel = model<TStudent, IStudentModel>(
   'Student',
   studentSchema,
 )
