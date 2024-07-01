@@ -9,7 +9,7 @@
 // 1. Create an type representing a Student in MongoDB.
 export interface IUserName {
   firstName: string
-  middleName: string
+  middleName?: string
   lastName: string
 }
 
@@ -32,7 +32,7 @@ export type StudentType = {
   id: string
   name: IUserName
   profileImg?: string
-  gender: 'male' | 'female'
+  gender: 'male' | 'female' | 'other'
   dateOfBirth: string
   email: string
   contactNo: string
