@@ -55,6 +55,7 @@ export type TStudent = {
   guardian: TGuardian
   localGuardian: TLocalGuardian
   isActive: 'active' | 'blocked'
+  isDeleted: boolean
 }
 
 // For creating static

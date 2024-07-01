@@ -166,9 +166,13 @@ const studentSchema = new Schema<TStudent, IStudentModel>({
     },
     default: 'active',
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 })
 
-// Middleware --> pre save middleware / hook: will work on create() save()
+// Middleware --> pre save middleware / hook: will work on create() save() --> To change a value or property of data and save it to db or return it to response.
 studentSchema.pre('save', async function (next) {
   // console.log(this, 'pre hook: we will save data')
 
@@ -188,6 +192,26 @@ studentSchema.pre('save', async function (next) {
 studentSchema.post('save', function (doc, next) {
   doc.password = ''
   console.log(this, 'post hook: Student saved successfully')
+
+  next()
+})
+
+// Query Middleware --> We have to make this for find, findOne and aggregate, to hide a data against true false or boolean, like isDeleted: true.
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } }) // isDeleted jodi true na hoy tahole segula amra pathabo.
+
+  next()
+})
+studentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } }) // isDeleted jodi true na hoy tahole segula amra pathabo.
+
+  next()
+})
+
+// [ { $match: { isDeleted: { $ne: true } } }, { '$match': { id: 'S12346' } } ]
+studentSchema.pre('aggregate', function (next) {
+  // console.log(this.pipeline()) // this.pipeline() akta array --> [ { '$match': { id: 'S12346' } } ], ei array er prothome { $match: { isDeleted: { $ne: true } } } insert korte hobe unshift er maddhome taile aggregation use korle oo isDeleted: true property gula show korbe na.
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } })
 
   next()
 })
