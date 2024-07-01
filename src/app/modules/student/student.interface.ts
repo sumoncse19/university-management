@@ -5,6 +5,8 @@
 //   profileImg?: string;
 // }
 
+import { Model } from 'mongoose'
+
 // also we can use like this:
 // 1. Create an type representing a Student in MongoDB.
 export interface IUserName {
@@ -19,16 +21,16 @@ export interface IGuardianDetails {
   contactNo: string
 }
 
-export type GuardianType = {
+export type TGuardian = {
   fatherDetails: IGuardianDetails
   motherDetails: IGuardianDetails
 }
 
-export type LocalGuardianType = IGuardianDetails & {
+export type TLocalGuardian = IGuardianDetails & {
   address: string
 }
 
-export type StudentType = {
+export type TStudent = {
   id: string
   name: IUserName
   profileImg?: string
@@ -49,7 +51,17 @@ export type StudentType = {
     | 'unknown'
   presentAddress: string
   permanentAddress: string
-  guardian: GuardianType
-  localGuardian: LocalGuardianType
+  guardian: TGuardian
+  localGuardian: TLocalGuardian
   isActive: 'active' | 'blocked'
 }
+
+// For creating instance
+export type TStudentMethods = {
+  isStudentExists(id: string): Promise<TStudent | null>
+}
+export type TStudentModel = Model<
+  TStudent,
+  Record<string, never>,
+  TStudentMethods
+>
