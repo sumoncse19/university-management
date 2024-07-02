@@ -48,7 +48,7 @@ Create a typescript configuration file:
 tsc --init
 ```
 
-if `tsc --init` is not working then follow these command first:
+if `tsc --init` is not working then follow this command first:
 
 ```
 npm i -g typescript
@@ -78,7 +78,9 @@ npm i --save-dev @type/node
 npm i --save-dev @type/express
 ```
 
-### Create a src/app.ts:
+### Step 3: Create a basic file structure with basic code example:
+
+#### Create a src/app.ts:
 
 ```
 import express, { Application, Request, Response } from 'express'
@@ -102,7 +104,7 @@ app.get('/', getAController)
 export default app
 ```
 
-### Create src/app/config/index.ts:
+#### Create src/app/config/index.ts:
 
 ```
 import dotenv from 'dotenv'
@@ -116,7 +118,7 @@ export default {
 }
 ```
 
-### Create a src/server.ts file:
+#### Create a src/server.ts file:
 
 ```
 import app from './app'
@@ -144,7 +146,7 @@ For run development application server:
 npm i ts-node-dev --save-dev
 ```
 
-### Add this in package.json
+### Step 4: Add this in package.json
 
 ```
 "scripts": {
@@ -159,7 +161,9 @@ npm i ts-node-dev --save-dev
 
 Our main function call from server.ts file and it connect with our database and listen the app.ts. For organize credential of config file we create a index.ts file in src/app/config/index.ts and define all of the credential.
 
-### setup typescript, eslint and prettier:
+###
+
+### Step 5: Setup typescript, eslint and prettier:
 
 Add these line tsconfig.json
 
