@@ -7,9 +7,13 @@ const app: Application = express()
 app.use(express.json())
 app.use(cors())
 
-app.get('/', (req: Request, res: Response) => {
-  const a = 190
-  res.send(a)
-})
+const getAController = (req: Request, res: Response) => {
+  res.status(200).json({
+    success: true,
+    message: 'Your server is running and hit the / route!',
+  })
+}
+
+app.get('/', getAController)
 
 export default app
