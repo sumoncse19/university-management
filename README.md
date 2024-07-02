@@ -68,6 +68,13 @@ Now go to tsconfig.json file and change these line:
 "outDir": "./dist",
 ```
 
+And add these line in the first of the tsconfig.json file:
+
+```
+"include": ["src"], // which files to compile
+"exclude": ["node_modules"],  // which files to skip
+```
+
 Then install type definition:
 
 ```
@@ -80,7 +87,7 @@ npm i --save-dev @type/express
 
 ### Step 3: Create a basic file structure with basic code example:
 
-#### Create a src/app.ts:
+#### Create src/app.ts:
 
 ```
 import express, { Application, Request, Response } from 'express'
@@ -118,7 +125,7 @@ export default {
 }
 ```
 
-#### Create a src/server.ts file:
+#### Create src/server.ts file:
 
 ```
 import app from './app'
@@ -140,7 +147,7 @@ async function main() {
 main()
 ```
 
-For run development application server:
+For run development application server install `ts-node-dev` as devDependencies:
 
 ```
 npm i ts-node-dev --save-dev
@@ -161,31 +168,138 @@ npm i ts-node-dev --save-dev
 
 Our main function call from server.ts file and it connect with our database and listen the app.ts. For organize credential of config file we create a index.ts file in src/app/config/index.ts and define all of the credential.
 
-###
+### Step 5: Setup eslint and prettier:
 
-### Step 5: Setup typescript, eslint and prettier:
-
-Add these line tsconfig.json
+##### Installing Prettier:
 
 ```
-"include": ["src"], // which files to compile
-"exclude": ["node_modules"],
+npm install --save-dev prettier
 ```
 
-Installing eslint:
+##### Installing eslint:
+
+Old: `npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev`
 
 ```
-npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
+npm install --save-dev eslint @eslint/js @types/eslint__js typescript typescript-eslint
 ```
 
 Eslint initialization:
 
 ```
+npm init @eslint/config
+```
+
+or
+
+```
 npx eslint --init
 ```
 
-Installing Prettier:
+Then it'll create a `eslint.config.mjs` automatically, if it not created then create this file in root folder. And paste this codeblock in this file:
 
 ```
-npm install --save-dev prettier
+// @ts-check
+
+import globals from 'globals'
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+
+export default tseslint.config(
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      }
+    }
+  },
+  {
+    rules: {
+      "no-unused-vars": "error",
+      "no-undef": "error",
+      "prefer-const": "error",
+      "no-console": "warning",
+      "no-undef": 'error',
+    }
+  }
+);
+```
+
+Or we can also paste this codeblock in this file by run this command `npm install eslint@^8.56.0`:
+
+```
+import globals from 'globals'
+import eslint from '@eslint/js'
+import tseslint from '@typescript-eslint/eslint-plugin'
+
+export default [
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  {
+    ignores: ['node_modules/**', 'dist/**'], // Add your ignore patterns here
+  },
+  {
+    rules: {
+      'no-unused-vars': 'error',
+      'no-unused-expressions': 'error',
+      'prefer-const': 'error',
+      'no-console': 'warn',
+      'no-undef': 'error',
+    },
+  },
+  { files: ['/*.{js,mjs,cjs,ts}'] },
+]
+```
+
+Or we can also paste this codeblock in this file:
+
+```
+import globals from 'globals'
+import pluginJs from '@eslint/js'
+import tseslint from 'typescript-eslint'
+
+export default [
+  {
+    ignores: ['node_modules/**', 'dist/**'], // Add your ignore patterns here
+  },
+  {
+    extends: [
+      'eslint:recommended',
+      'plugin:@typescript-eslint/recommended',
+      'prettier',
+    ],
+  },
+  {
+    files: ['**/*.ts'], // Specify file extensions to lint
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+
+    rules: {
+      // "@typescript-eslint/no-unused-vars": "error",
+      'no-unused-vars': 'error',
+      'no-unused-expressions': 'error',
+      'prefer-const': 'error',
+      'no-console': 'warn',
+      'no-undef': 'error',
+      // to enforce using type for object type definitions, can be type or interface
+      // "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    },
+  },
+  { files: ['/*.{js,mjs,cjs,ts}'] },
+  { languageOptions: { globals: globals.browser } },
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+]
+
 ```
