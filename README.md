@@ -176,6 +176,15 @@ Our main function call from server.ts file and it connect with our database and 
 npm install --save-dev prettier
 ```
 
+Add these line in .prettierrc.json file:
+
+```
+{
+  "semi": false,
+  "singleQuote": true
+}
+```
+
 ##### Installing eslint:
 
 Old: `npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev`
