@@ -10,10 +10,11 @@ app.use(cors())
 
 // application routes
 app.use('/api/v1/students', StudentRoutes)
-
 const getAController = (req: Request, res: Response) => {
-  const a = 190
-  res.send(a)
+  res.status(200).json({
+    success: true,
+    message: 'Your server is running and hit the / route!',
+  })
 }
 
 app.get('/', getAController)
