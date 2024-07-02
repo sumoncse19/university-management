@@ -31,8 +31,12 @@ export default [
       // "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     },
   },
-  { files: ['/*.{js,mjs,cjs,ts}'] },
-  { languageOptions: { globals: globals.browser } },
+  {
+    files: ['/*.{js,mjs,cjs,ts}'],
+  },
+  {
+    languageOptions: { globals: globals.browser },
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
 ]

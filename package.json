@@ -7,10 +7,12 @@
     "start:dev": "ts-node-dev --respawn --transpile-only src/server",
     "build": "tsc",
     "lint": "eslint .",
-    "lint:fix": "npx eslint src --fix",
+    "lint:fix": "eslint src --fix",
     "prettier": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
-    "prettier:fix": "npx prettier --write src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prettier:fix": "prettier --write src",
+    "lint-prettier": "npm run lint && npm run prettier",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -32,9 +34,17 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.6.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.2",
     "typescript-eslint": "^7.14.1"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,js,json}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
