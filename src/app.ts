@@ -6,6 +6,7 @@ const app: Application = express()
 // parser
 app.use(express.json())
 app.use(cors())
+
 const getAController = (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
