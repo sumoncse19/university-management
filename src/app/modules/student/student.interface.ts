@@ -5,7 +5,7 @@
 //   profileImg?: string;
 // }
 
-import { Model } from 'mongoose'
+import { Model, Document } from 'mongoose'
 
 // also we can use like this:
 // 1. Create an type representing a Student in MongoDB.
@@ -30,7 +30,7 @@ export type TLocalGuardian = IGuardianDetails & {
   address: string
 }
 
-export type TStudent = {
+export interface TStudent extends Document {
   id: string
   name: IUserName
   profileImg?: string
@@ -60,6 +60,7 @@ export type TStudent = {
 
 // For creating static
 export interface IStudentModel extends Model<TStudent> {
+  // eslint-disable-next-line no-unused-vars
   isStudentExists(id: string): Promise<TStudent | null>
 }
 
@@ -67,6 +68,7 @@ export interface IStudentModel extends Model<TStudent> {
 // export type TStudentMethods = {
 //   isStudentExists(id: string): Promise<TStudent | null>
 // }
+
 // export type TStudentModel = Model<
 //   TStudent,
 //   Record<string, never>,
