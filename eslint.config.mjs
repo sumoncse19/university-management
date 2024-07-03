@@ -8,7 +8,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ['node_modules/**', 'dist/**'], // Add your ignore patterns here
+    ignores: ['.env', 'node_modules/**', 'dist/**'], // Add your ignore patterns here
   },
   {
     languageOptions: {
