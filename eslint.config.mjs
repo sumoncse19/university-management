@@ -8,6 +8,9 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    ignores: ['node_modules/**', 'dist/**'], // Add your ignore patterns here
+  },
+  {
     languageOptions: {
       globals: {
         ...globals.node,
@@ -17,9 +20,10 @@ export default tseslint.config(
   {
     rules: {
       'no-unused-vars': 'error',
-      'no-undef': 'error',
+      'no-unused-expressions': 'error',
       'prefer-const': 'error',
       'no-console': 'warn',
+      'no-undef': 'error',
     },
   },
 )
