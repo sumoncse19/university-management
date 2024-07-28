@@ -5,7 +5,7 @@
 //   profileImg?: string;
 // }
 
-import { Model, Document } from 'mongoose'
+import { Model, Document, Types } from 'mongoose'
 
 // also we can use like this:
 // 1. Create an type representing a Student in MongoDB.
@@ -32,6 +32,7 @@ export type TLocalGuardian = IGuardianDetails & {
 
 export interface TStudent extends Document {
   id: string
+  user: Types.ObjectId
   name: IUserName
   profileImg?: string
   gender: 'male' | 'female' | 'other'
@@ -54,8 +55,8 @@ export interface TStudent extends Document {
   permanentAddress: string
   guardian: TGuardian
   localGuardian: TLocalGuardian
-  isActive: 'active' | 'blocked'
-  isDeleted: boolean
+  // isActive: 'active' | 'blocked'
+  // isDeleted: boolean
 }
 
 // For creating static

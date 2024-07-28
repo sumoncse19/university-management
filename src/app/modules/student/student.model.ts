@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 import validator from 'validator'
-import bcrypt from 'bcrypt'
+// import bcrypt from 'bcrypt'
 
 import {
   TGuardian,
@@ -12,7 +12,7 @@ import {
   // TStudentMethods,
   IStudentModel,
 } from './student.interface'
-import config from '../../config'
+// import config from '../../config'
 
 // 2. Create a Schema corresponding to the document interface.
 // const studentSchema = new Schema<IStudent>({
@@ -106,6 +106,12 @@ const studentSchema = new Schema<TStudent, IStudentModel>(
       required: [true, 'Student ID is required'],
       unique: true,
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'User id is required'],
+      unique: true,
+      ref: 'User',
+    },
     name: {
       type: userNameSchema,
       required: [true, 'Student Name is required'],
@@ -121,7 +127,7 @@ const studentSchema = new Schema<TStudent, IStudentModel>(
     },
     dateOfBirth: {
       type: String,
-      required: [true, 'Date of Birth is required'],
+      required: [true, 'Date of Birth is required, but you entered: {VALUE}'],
     },
     email: {
       type: String,
@@ -132,11 +138,11 @@ const studentSchema = new Schema<TStudent, IStudentModel>(
         message: '{VALUE} is not a valid email',
       },
     },
-    password: {
-      type: String,
-      required: [true, 'Password ID is required'],
-      maxlength: [25, 'Password can not be more than 20'],
-    },
+    // password: {
+    //   type: String,
+    //   required: [true, 'Password ID is required'],
+    //   maxlength: [25, 'Password can not be more than 20'],
+    // },
     contactNo: { type: String, required: [true, 'Contact Number is required'] },
     emergencyContactNo: {
       type: String,
@@ -165,18 +171,18 @@ const studentSchema = new Schema<TStudent, IStudentModel>(
       type: localGuardianSchema,
       required: [true, 'Local Guardian details are required'],
     },
-    isActive: {
-      type: String,
-      enum: {
-        values: ['active', 'blocked'],
-        message: '{VALUE} is not valid',
-      },
-      default: 'active',
-    },
-    isDeleted: {
-      type: Boolean,
-      default: false,
-    },
+    // isActive: {
+    //   type: String,
+    //   enum: {
+    //     values: ['active', 'blocked'],
+    //     message: '{VALUE} is not valid',
+    //   },
+    //   default: 'active',
+    // },
+    // isDeleted: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   {
     toJSON: {
@@ -191,28 +197,28 @@ studentSchema.virtual('fullName').get(function () {
 })
 
 // Middleware --> pre save middleware / hook: will work on create() save() --> To change a value or property of data and save it to db or return it to response.
-studentSchema.pre('save', async function (next) {
-  // console.log(this, 'pre hook: we will save data')
+// studentSchema.pre('save', async function (next) {
+//   // console.log(this, 'pre hook: we will save data')
 
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const student = this
+//   // eslint-disable-next-line @typescript-eslint/no-this-alias
+//   const student = this
 
-  // Hashing password and save into DB
-  student.password = await bcrypt.hash(
-    student.password,
-    Number(config.bcrypt_salt_rounds),
-  )
+//   // Hashing password and save into DB
+//   student.password = await bcrypt.hash(
+//     student.password,
+//     Number(config.bcrypt_salt_rounds),
+//   )
 
-  next()
-})
+//   next()
+// })
 
-// Middleware --> post save middleware / hook
-studentSchema.post('save', function (doc, next) {
-  doc.password = ''
-  console.log(this, 'post hook: Student saved successfully')
+// // Middleware --> post save middleware / hook
+// studentSchema.post('save', function (doc, next) {
+//   doc.password = ''
+//   console.log(this, 'post hook: Student saved successfully')
 
-  next()
-})
+//   next()
+// })
 
 // Query Middleware --> We have to make this for find, findOne and aggregate, to hide a data against true false or boolean, like isDeleted: true.
 studentSchema.pre('find', function (next) {
