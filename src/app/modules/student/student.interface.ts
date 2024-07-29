@@ -36,7 +36,7 @@ export interface TStudent extends Document {
   name: IUserName
   profileImg?: string
   gender: 'male' | 'female' | 'other'
-  dateOfBirth: string
+  dateOfBirth: Date
   email: string
   password: string
   contactNo: string
