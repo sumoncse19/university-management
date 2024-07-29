@@ -1,7 +1,8 @@
-import { NextFunction, Request, Response } from 'express'
+import { RequestHandler } from 'express'
 import { StudentServices } from './student.service'
 import sendResponse from '../../../utils/sendResponse'
 import httpStatus from 'http-status'
+import catchAsync from '../../../utils/catchAsync'
 // import studentValidationSchema from './student.validation'
 // import studentValidationSchema from './student.validation'
 
@@ -53,68 +54,45 @@ import httpStatus from 'http-status'
 //   }
 // }
 
-const getAllStudents = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const result = await StudentServices.getAllStudentFromDB()
+// For every controller we create asynchronous function with try and catch which is repeat code for better improvement we can create a higher order function.
+const getAllStudents = catchAsync(async (req, res) => {
+  const result = await StudentServices.getAllStudentFromDB()
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Student are retrieved successfully!',
-      data: result,
-    })
-  } catch (err) {
-    next(err)
-  }
-}
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student are retrieved successfully!',
+    data: result,
+  })
+})
 
-const getSingleStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    // const studentId = req.params.studentId;
-    const { studentId } = req.params
+const getSingleStudent = catchAsync(async (req, res) => {
+  // const studentId = req.params.studentId;
+  const { studentId } = req.params
 
-    const result = await StudentServices.getSingleStudentFromDB(studentId)
+  const result = await StudentServices.getSingleStudentFromDB(studentId)
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Student are retrieved successfully!',
-      data: result,
-    })
-  } catch (err) {
-    next(err)
-  }
-}
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student are retrieved successfully!',
+    data: result,
+  })
+})
 
-const deleteStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    // const studentId = req.params.studentId;
-    const { studentId } = req.params
+const deleteStudent: RequestHandler = catchAsync(async (req, res) => {
+  // const studentId = req.params.studentId;
+  const { studentId } = req.params
 
-    const result = await StudentServices.deleteStudentFromDB(studentId)
+  const result = await StudentServices.deleteStudentFromDB(studentId)
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Student is deleted successfully!',
-      data: result,
-    })
-  } catch (err) {
-    next(err)
-  }
-}
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student is deleted successfully!',
+    data: result,
+  })
+})
 
 export const studentControllers = {
   // createStudent,

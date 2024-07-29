@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { studentValidations } from '../student/student.validation'
 
 const userValidationSchema = z.object({
   role: z.enum(['admin', 'faculty', 'student']),
@@ -10,6 +11,13 @@ const userValidationSchema = z.object({
     .optional(),
 })
 
+const newUserValidationSchema = z.object({
+  body: userValidationSchema.extend({
+    userInfo: studentValidations.studentValidationSchema.shape.body,
+  }),
+})
+
 export const UserValidation = {
   userValidationSchema,
+  newUserValidationSchema,
 }
