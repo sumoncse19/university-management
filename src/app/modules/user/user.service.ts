@@ -1,7 +1,9 @@
 import config from '../../config'
+import { AcademicSemesterModel } from '../academicSemester/academicSemester.model'
 import { StudentModel } from '../student/student.model'
 import { TNewUser, TUser } from './user.interface'
 import { UserModel } from './user.model'
+import { generateStudentId } from './user.utils'
 
 const createUserIntoDB = async (userData: TNewUser) => {
   // create a new static method with data provided by user
@@ -11,8 +13,14 @@ const createUserIntoDB = async (userData: TNewUser) => {
 
   const user: Partial<TUser> = {}
 
-  // manually generated id:
-  user.id = '2030100001'
+  // find academic semester info
+  const admissionSemester = await AcademicSemesterModel.findById(
+    userData.userInfo.admissionSemester,
+  )
+
+  if (admissionSemester) {
+    user.id = await generateStudentId(admissionSemester)
+  }
 
   // using default pass:
   user.password = userData.password || (config.default_pass as string)

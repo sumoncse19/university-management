@@ -36,7 +36,7 @@ export interface TStudent extends Document {
   name: IUserName
   profileImg?: string
   gender: 'male' | 'female' | 'other'
-  dateOfBirth: Date
+  dateOfBirth: string
   email: string
   password: string
   contactNo: string
@@ -55,6 +55,7 @@ export interface TStudent extends Document {
   permanentAddress: string
   guardian: TGuardian
   localGuardian: TLocalGuardian
+  admissionSemester: Types.ObjectId
   // isActive: 'active' | 'blocked'
   // isDeleted: boolean
 }
