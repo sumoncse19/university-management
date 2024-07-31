@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
 
+interface CustomError extends Error {
+  statusCode?: number
+}
+
 const globalErrorHandler = (
   err: unknown,
   req: Request,
@@ -7,13 +11,15 @@ const globalErrorHandler = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   next: NextFunction,
 ) => {
-  const statusCode = 500
-  let message
+  let statusCode = 500
+  let message = 'Something went wrong!'
+
   if (err instanceof Error) {
-    message = err.message
-  } else {
-    message = 'Something went wrong!'
+    const customError = err as CustomError
+    statusCode = customError.statusCode || 500
+    message = customError.message
   }
+
   return res.status(statusCode).json({
     success: false,
     message,

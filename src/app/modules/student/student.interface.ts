@@ -56,6 +56,7 @@ export interface TStudent extends Document {
   guardian: TGuardian
   localGuardian: TLocalGuardian
   admissionSemester: Types.ObjectId
+  academicDepartment: Types.ObjectId
   // isActive: 'active' | 'blocked'
   // isDeleted: boolean
 }

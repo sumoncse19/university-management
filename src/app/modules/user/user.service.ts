@@ -1,4 +1,5 @@
 import config from '../../config'
+import AppError from '../../errors/AppError'
 import { AcademicSemesterModel } from '../academicSemester/academicSemester.model'
 import { StudentModel } from '../student/student.model'
 import { TNewUser, TUser } from './user.interface'
@@ -43,7 +44,7 @@ const createUserIntoDB = async (userData: TNewUser) => {
       const newUserInfo = await StudentModel.create(userData.userInfo)
       return newUserInfo
     } else {
-      throw new Error(`${userData.role} modal is not created now 😢`)
+      throw new AppError(405, `${userData.role} modal is not created now 😢`)
     }
   }
 

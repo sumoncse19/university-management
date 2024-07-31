@@ -176,6 +176,11 @@ const studentSchema = new Schema<TStudent, IStudentModel>(
       required: [true, 'Academic Semester ID is required'],
       ref: 'AcademicSemester',
     },
+    academicDepartment: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'Academic Department ID is required'],
+      ref: 'AcademicDepartment',
+    },
     // isActive: {
     //   type: String,
     //   enum: {

@@ -1,3 +1,4 @@
+import AppError from '../../errors/AppError'
 import {
   AcademicSemesterCode,
   AcademicSemesterName,
@@ -39,7 +40,7 @@ academicSemesterSchema.pre('save', async function (next) {
   })
 
   if (isSemesterExist) {
-    throw new Error('Semester is already exist!')
+    throw new AppError(409, 'Semester is already exist!')
   }
   next()
 })
