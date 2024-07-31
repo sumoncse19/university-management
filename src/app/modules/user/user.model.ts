@@ -30,11 +30,11 @@ userSchema.pre('save', async function (next) {
   // console.log(this, 'pre hook: we will save data')
 
   // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const student = this
+  const user = this
 
   // Hashing password and save into DB
-  student.password = await bcrypt.hash(
-    student.password,
+  user.password = await bcrypt.hash(
+    user.password,
     Number(config.bcrypt_salt_rounds),
   )
 

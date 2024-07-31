@@ -22,6 +22,8 @@ const createUserIntoDB = async (userData: TNewUser) => {
     user.id = await generateStudentId(admissionSemester)
   }
 
+  // user.id = '2030010002'
+
   // using default pass:
   user.password = userData.password || (config.default_pass as string)
 

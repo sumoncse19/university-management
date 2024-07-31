@@ -11,7 +11,7 @@ const userValidationSchema = z.object({
     .optional(),
 })
 
-const newUserValidationSchema = z.object({
+const createUserValidationSchema = z.object({
   body: userValidationSchema.extend({
     userInfo: studentValidations.studentValidationSchema.shape.body,
   }),
@@ -19,5 +19,5 @@ const newUserValidationSchema = z.object({
 
 export const UserValidation = {
   userValidationSchema,
-  newUserValidationSchema,
+  newUserValidationSchema: createUserValidationSchema,
 }
